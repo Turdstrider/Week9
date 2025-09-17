@@ -1,0 +1,82 @@
+<div class="card border-secondary">
+  <div class="card-header text-secondary fw-bold">
+    {{ pageTitle }} <span (click) = "openAdd()" style="cursor: pointer; float:right"><i class="bi bi-node-plus" style="font-size:1.5em"></i></span>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 fw-bold">Name</div>
+      <div class="col-md-4 col-sm-4 fw-bold text-center">Price</div>
+    </div>
+
+    @for (productItem of filteredProducts(); track productItem._id) {
+   
+        <div class="row mb-2" >
+          <div class="col-md-4 col-sm-4" (click) = "openEdit(productItem)" style="cursor:pointer">
+            {{ productItem.name }}
+            <!-- <br/>{{ productItem._id }} -->
+          </div>
+          <div class="col-md-4 col-sm-4 text-center">
+            {{ productItem.price  }}
+          </div>
+          
+        </div>
+     
+    } @empty { No products available that match the filter }
+  </div> 
+
+  @if (editingProduct()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5)">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Product</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" [(ngModel)]="editingProduct()!.name" />
+          
+          <label class="form-label mt-2">Price</label>
+          <input type="number" class="form-control" [(ngModel)]="editingProduct()!.price" />
+        </div>
+         
+        <div class="modal-footer">
+          @if (deletingProduct()!=null) {
+          <button type="button" class="btn btn-danger" (click)="deleteProd(deletingProduct()!)">Delete Confirm</button>
+         }
+         <button class="btn btn-danger"> <i class="bi bi-trash" (click) = "deleteProdConfirm(editingProduct()!)"></i></button>
+          <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button class="btn btn-primary" (click)="saveEdit()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+  @if (addingProduct()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5)">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Product</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" [(ngModel)]="addingProduct()!.name" />
+          @if(proderror()!==''){
+            <div class="alert alert-warning mt-2" role="alert"> {{proderror()}}</div>
+          }
+          <label class="form-label mt-2">Price</label>
+          <input type="number" class="form-control" [(ngModel)]="addingProduct()!.price" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button class="btn btn-primary" (click)="saveAdd()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+</div>
