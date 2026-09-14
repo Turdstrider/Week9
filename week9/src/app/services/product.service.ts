@@ -18,14 +18,14 @@ private http = inject(HttpClient);
 //   }
 
 
-loadProducts():Observable<Product[]> {
+loadProducts():Observable<Product[]> { //directly invokes the backend methods for database manipulation.
 
     return this.http.get<Product[]>(environment.apiServer+'/api/getProdlist');
   }
 
 updateProd(product:Product){
     
-    return this.http.put<Product>(environment.apiServer+'/api/prod',  product );
+    return this.http.put<any>(environment.apiServer+'/api/prod', product);
   }
 
 addProd(product:Product){

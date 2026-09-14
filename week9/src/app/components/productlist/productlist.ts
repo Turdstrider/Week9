@@ -34,9 +34,9 @@ export class Productlist implements OnInit  {
     this.editingProduct.set({ ...product });
   }
   openAdd() {
-    // clone product so edits don't apply immediately
-    let temp = new Product("",0,"");
-    this.addingProduct.set(temp);
+  // clone product so edits don't apply immediately
+  let temp = new Product(0, "", "", 0, 0, "");
+  this.addingProduct.set(temp);
   }
   saveAdd(){
     const added = this.addingProduct();
@@ -51,7 +51,7 @@ export class Productlist implements OnInit  {
         this.closeModal();
       }else{
         
-        this.proderror.set("Duplicate of this record name already exists");
+        this.proderror.set("Duplicate product ID already exists");
       }
     }); 
   }
@@ -59,19 +59,25 @@ export class Productlist implements OnInit  {
   saveEdit() {
     const edited = this.editingProduct();
     if (!edited) return;
-    
-      this.productService.updateProd(edited).subscribe((data)=>{
-      // update the product list (mutating the signal)
-      this.products.update((items) =>
-        items.map((p) => (p._id === edited._id ? edited : p)));
+
+    this.productService.updateProd(edited).subscribe((data) => {
+      if (!data.error) {
+        // Update the product list
+        this.products.update((items) =>
+          items.map((p) => (p._id === edited._id ? edited : p))
+        );
         this.closeModal();
-      });
+      } else {
+        this.proderror.set("Duplicate product ID already exists");
+      }
+    });
   }
 
   closeModal() {
     this.editingProduct.set(null);
     this.addingProduct.set(null);
-    this.addingProduct.set(null);
+    this.deletingProduct.set(null);
+    this.proderror.set('');
   }
   filteredProducts = computed(()=>{
     return this.products().filter((p:any) => p.name.includes(this.listCriteria()));

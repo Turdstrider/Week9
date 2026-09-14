@@ -1,12 +1,25 @@
-export class Product{
+export class Product {
+    id: number;
     name: string;
-    price:number;
-    _id:string;
-    constructor(name:string,price:number,_id:string){
-        this.name = name;
-        this.price = price;
-        this._id = _id;
+    description: string;
+    price: number;
+    units: number;
+    _id: string;
 
+    constructor(
+        id: number,
+        name: string,
+        description: string,
+        price: number,
+        units: number,
+        _id: string
+    ) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.units = units;
+        this._id = _id;
     }
 }
 

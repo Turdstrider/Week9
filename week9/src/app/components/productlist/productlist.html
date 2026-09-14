@@ -5,21 +5,35 @@
 
   <div class="card-body">
     <div class="row">
-      <div class="col-md-4 col-sm-4 fw-bold">Name</div>
-      <div class="col-md-4 col-sm-4 fw-bold text-center">Price</div>
+      <div class="col-md-2 col-sm-2 fw-bold">ID</div>
+      <div class="col-md-3 col-sm-3 fw-bold">Name</div>
+      <div class="col-md-3 col-sm-3 fw-bold">Description</div>
+      <div class="col-md-2 col-sm-2 fw-bold text-center">Price</div>
+      <div class="col-md-2 col-sm-2 fw-bold text-center">Units</div>
     </div>
 
     @for (productItem of filteredProducts(); track productItem._id) {
    
         <div class="row mb-2" >
-          <div class="col-md-4 col-sm-4" (click) = "openEdit(productItem)" style="cursor:pointer">
-            {{ productItem.name }}
-            <!-- <br/>{{ productItem._id }} -->
+          <div class="col-md-2 col-sm-2">
+              {{ productItem.id }}
           </div>
-          <div class="col-md-4 col-sm-4 text-center">
-            {{ productItem.price  }}
+
+          <div class="col-md-3 col-sm-3" (click)="openEdit(productItem)" style="cursor:pointer">
+              {{ productItem.name }}
           </div>
-          
+
+          <div class="col-md-3 col-sm-3">
+              {{ productItem.description }}
+          </div>
+
+          <div class="col-md-2 col-sm-2 text-center">
+              {{ productItem.price }}
+          </div>
+
+          <div class="col-md-2 col-sm-2 text-center">
+              {{ productItem.units }}
+          </div>
         </div>
      
     } @empty { No products available that match the filter }
@@ -34,11 +48,24 @@
           <button type="button" class="btn-close" (click)="closeModal()"></button>
         </div>
         <div class="modal-body">
-          <label class="form-label">Name</label>
+          <label class="form-label">ID</label>
+          <input type="number" class="form-control" [(ngModel)]="editingProduct()!.id" />
+
+          @if(proderror()!==''){
+              <div class="alert alert-warning mt-2" role="alert"> {{proderror()}}</div>
+          }
+
+          <label class="form-label mt-2">Name</label>
           <input type="text" class="form-control" [(ngModel)]="editingProduct()!.name" />
-          
+
+          <label class="form-label mt-2">Description</label>
+          <input type="text" class="form-control" [(ngModel)]="editingProduct()!.description" />
+
           <label class="form-label mt-2">Price</label>
-          <input type="number" class="form-control" [(ngModel)]="editingProduct()!.price" />
+          <input type="number" step="0.01" class="form-control" [(ngModel)]="editingProduct()!.price" />
+
+          <label class="form-label mt-2">Units</label>
+          <input type="number" class="form-control" [(ngModel)]="editingProduct()!.units" />
         </div>
          
         <div class="modal-footer">
@@ -62,13 +89,24 @@
           <button type="button" class="btn-close" (click)="closeModal()"></button>
         </div>
         <div class="modal-body">
-          <label class="form-label">Name</label>
-          <input type="text" class="form-control" [(ngModel)]="addingProduct()!.name" />
+          <label class="form-label">ID</label>
+          <input type="number" class="form-control" [(ngModel)]="addingProduct()!.id" />
+
           @if(proderror()!==''){
-            <div class="alert alert-warning mt-2" role="alert"> {{proderror()}}</div>
+              <div class="alert alert-warning mt-2" role="alert"> {{proderror()}}</div>
           }
+
+          <label class="form-label mt-2">Name</label>
+          <input type="text" class="form-control" [(ngModel)]="addingProduct()!.name" />
+
+          <label class="form-label mt-2">Description</label>
+          <input type="text" class="form-control" [(ngModel)]="addingProduct()!.description" />
+
           <label class="form-label mt-2">Price</label>
-          <input type="number" class="form-control" [(ngModel)]="addingProduct()!.price" />
+          <input type="number" step="0.01" class="form-control" [(ngModel)]="addingProduct()!.price" />
+
+          <label class="form-label mt-2">Units</label>
+          <input type="number" class="form-control" [(ngModel)]="addingProduct()!.units" />
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
